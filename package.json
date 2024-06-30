@@ -1,0 +1,25 @@
+{
+  "name": "nft-code-editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "svelte": "^4.2.18",
+    "vite": "^5.3.1"
+  },
+  "dependencies": {
+    "@wagmi/connectors": "^5.0.20",
+    "@wagmi/core": "^2.11.5",
+    "@web3modal/wagmi": "^5.0.3",
+    "@zoralabs/protocol-deployments": "^0.1.13",
+    "@zoralabs/protocol-sdk": "^0.7.0",
+    "svelte-ace": "^1.0.21",
+    "viem": "^2.16.4"
+  }
+}
