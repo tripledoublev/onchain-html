@@ -16,18 +16,8 @@
 </script>
 
 <AceEditor
-on:selectionChange={updateCode}
-on:paste={updateCode}
+on:change={updateCode}
 on:input={updateCode}
-on:focus={() => console.log('focus')}
-on:documentChange={(obj) => console.log(`document change : ${obj.detail}`)}
-on:cut={() => console.log('cut')}
-on:cursorChange={() => console.log('cursor change')}
-on:copy={() => console.log('copy')}
-on:init={(editor) => console.log(editor.detail)}
-on:commandKey={updateCode}
-on:changeMode={(obj) => console.log(`change mode : ${obj.detail}`)}
-on:blur={() => console.log('blur')}
 width={$width}
 height={$height}
   lang="html"

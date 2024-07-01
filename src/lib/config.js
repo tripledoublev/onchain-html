@@ -83,7 +83,7 @@ account.subscribe((newAccount) => {
     }
   });
 
-export let walletClient; 
+export let walletClient = giveMeTheclient(); 
 
 
 // Ensure the account store is updated

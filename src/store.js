@@ -1,5 +1,4 @@
-// store.js
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import Javascript from './lib/JAVASCRIPT.svelte';
 
 
@@ -40,42 +39,56 @@ export let htmlCode = writable(`
 
 
 
-
     <title>HTMLNFT</title>
-    
     <meta 
         name="description" 
         content="Insert description."
     />
-    
-    <h1>Hello World</h1>
-    
+    <main>
+     <h1>Hello World</h1>
+    </main>
+
     `);
-export let cssCode = writable(`
-    /*
 
-    This is the default CSS code.
-    Edit this code and see the changes 
-    in the preview.
+    function createCssCodeStore() {
+     const { subscribe, set, update } = writable(`
+     main {
+         background-color: #141414;
+         height: 400px;
+         width: 400px;
+         display: flex;
+         justify-content: center;
+     }
+     h1 { 
+         width: 100%;
+         color: white;
+         font: 50px monospace;
+         align-items: center;
+         display: flex;
+         padding-left: 20px;
+         margin:0;
+     }
+     `);
+ 
+     return {
+         subscribe,
+         set,
+         update,
+         setWithDimensions: (newCss, newSize) => {
+          update(css => {
+               const mainRegex = /(main\s*{[^}]*})/;
+               return css.replace(mainRegex, (match) => {
+                   return match
+                       .replace(/width:\s*[^;]+;/, `width: ${newSize};`)
+                       .replace(/height:\s*[^;]+;/, `height: ${newSize};`);
+               });
+           });
+     }
+     };
+ }
+ 
+ export const cssCode = createCssCodeStore();
 
-    */
-
-
-    body {
-        overflow: hidden;
-    }
-    h1 { 
-        width: 100%;
-        color: white;
-        background-color: #141414;
-        font: 50px monospace;
-        align-items: center;
-        display: flex;
-        height: 100%;
-        padding-left: 20px;
-        margin:0;
-    }
-    `);	
 export let jsCode = writable(`
    
     console.log('!');
@@ -83,4 +96,11 @@ export let jsCode = writable(`
     `);
 
 
-    
+// Subscribe to width and height changes
+width.subscribe($width => {
+     cssCode.setWithDimensions(cssCode, $width);
+ });
+ 
+ height.subscribe($height => {
+     cssCode.setWithDimensions(cssCode, $height);
+ });

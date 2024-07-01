@@ -1,6 +1,5 @@
 <script>
   import { onMount, tick } from 'svelte';
-  import { writable } from 'svelte/store';
   import { htmlCode, cssCode, jsCode, width, height } from '../store.js';
 
   let iframe;
@@ -9,33 +8,32 @@
     htmlCode.subscribe(() => updateIframe());
     cssCode.subscribe(() => updateIframe());
     jsCode.subscribe(() => updateIframe());
+    width.subscribe(() => updateIframe());
+    height.subscribe(() => updateIframe());
   });
 
   async function updateIframe() {
-    await tick(); // Ensure Svelte has processed the reactivity updates
-    const doc = iframe?.contentWindow?.document;
-    if (doc) {
-      doc.open();
-      doc.write(`
-        <html>
-          <head>
-            <style>${$cssCode}</style>
-          </head>
-          <body>
-            ${$htmlCode}
-            <script type="text/javascript">
-              try {
-                ${$jsCode}
-              } catch(error) {
-                console.error('Script Error:', error);
-              }
-            <\/script>
-          </body>
-        </html>
-      `);
-      doc.close();
-    }
+    console.log('Updating iframe..., width:', $width, 'height:', $height);
+  await tick();
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${$width}" height="${$height}">
+      <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+          <style>${$cssCode}</style>
+          ${$htmlCode}
+          <script type="text/javascript">${$jsCode}<\/script>
+        </div>
+      </foreignObject>
+    </svg>
+  `;
+  
+  const blob = new Blob([svg], {type: 'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  
+  if (iframe) {
+    iframe.src = url;
   }
+}
 </script>
 
 <iframe title="Preview" bind:this={iframe} style="width: {$width}; height: {$height};"></iframe>

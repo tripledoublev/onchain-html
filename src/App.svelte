@@ -4,21 +4,18 @@
   import JAVASCRIPT from './lib/JAVASCRIPT.svelte';
   import Preview from './lib/Preview.svelte';
   import Slider from './lib/Slider.svelte';
-  import Mint from './lib/Mint.svelte';
 
-import Wallet from './lib/Wallet.svelte';
-
+    import Wallet from './lib/Wallet.svelte';
 
 import { account } from './store.js';
   import Sign from './lib/Sign.svelte';
 let connected;
-$: if ($account.status === 'connected') {
+/* $: if ($account.status === 'connected') {
   //connected = true;
 }
-  
+   */
 </script>
 
-<Wallet />  
 <main>
 
   <section>
@@ -39,12 +36,11 @@ $: if ($account.status === 'connected') {
   </section>
 </main>
 <section>
-
-  <Sign />
-{#if connected}
-   <Mint />   
-  <Slider />
-{/if}
+  <Wallet />
+<Slider />
+{#if $account.status === 'connected'}
+<Sign />
+{/if} 
 </section>
 
 <style>

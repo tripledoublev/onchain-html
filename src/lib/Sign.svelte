@@ -1,45 +1,88 @@
 <script>
-import { createCreatorClient } from "@zoralabs/protocol-sdk";
-import { useAccount, useChainId, usePublicClient, useSignTypedData } from "wagmi";
- 
-const chainId = useChainId();
-const publicClient = usePublicClient();
-const creatorAddress  = useAccount();
- 
-const creatorClient = createCreatorClient({ chainId, publicClient });
- 
-const {
-  // data to sign
-  typedDataDefinition,
-  // submit will submit the signature and premint to the api
-  submit
-} = await creatorClient.createPremint({
-  // info of the 1155 contract to create.
-  contract: {
-    // the account that will be the admin of the collection.  
-    // Must match the signer of the premint.
-    contractAdmin: creatorAddress,
-    contractName: "Testing Contract",
-    contractURI:
-      "ipfs://bafkreiainxen4b4wz4ubylvbhons6rembxdet4a262nf2lziclqvv7au3e",
-  },
-  // token info of token to create
-  token: {
-    tokenURI:
-      "ipfs://bafkreice23maski3x52tsfqgxstx3kbiifnt5jotg3a5ynvve53c4soi2u",
-    payoutRecipient: creatorAddress,
-  },
-});
- 
-const { signTypedData, data: signature } = useSignTypedData();
- 
-if (signature) {
-  submit({
-    signature
+  import { createCreatorClient } from "@zoralabs/protocol-sdk";
+  import { onMount } from "svelte";
+  import { signTypedData } from "@wagmi/core";
+  import { chainId, publicClient, config } from "./config";
+  import { account } from "../store.js";
+  import { generateSVG, svgToBase64, prepareTokenURI, prepareContractURI } from './utils';
+  import { get } from 'svelte/store';
+  import { htmlCode, cssCode, jsCode, width, height, title, description } from '../store.js';
+
+  let creatorAddress;
+  let creatorClient;
+  let typedDataDefinition;
+  let submit;
+  let signature;
+
+  onMount(async () => {
+    creatorAddress = get(account).address;
+
+    creatorClient = createCreatorClient({ chainId, publicClient });
+
   });
-}
- 
+
+  async function handleCreate() {
+
+    // Generate SVG content and convert to base64
+    const svgContent = generateSVG(get(htmlCode), get(cssCode), get(jsCode), get(width), get(height));
+      const base64Svg = svgToBase64(svgContent);
+      console.log("Base64 SVG:", base64Svg);
+
+            // Prepare token and contract URIs
+            const base64TokenURI = prepareTokenURI(get(title), get(description), base64Svg);
+      const base64ContractURI = prepareContractURI(get(title), get(description), base64Svg);
+      console.log("tokenURI:", base64TokenURI);
+
+      const response = await creatorClient.createPremint({
+      contract: {
+        contractAdmin: $account.address,
+          contractName: get(title).toString(),
+          contractURI: base64ContractURI,
+      },
+      token: {
+        tokenURI: base64TokenURI,
+        createReferral: "0x06f4DB783097c632B888669032B2905F70e08105",
+        maxSupply: 50000n,
+        maxTokensPerAddress: 10n,
+        mintStart: 0n,
+        mintDuration: 0n,
+        pricePerToken: 0n,
+        payoutRecipient: $account.address,
+      },
+    });
+
+    typedDataDefinition = response.typedDataDefinition;
+    submit = response.submit;
+
+
+
+    try {
+      const signature = await signTypedData(config,
+      typedDataDefinition);
+      if (signature) {
+        await submit({ signature });
+      }
+    } catch (error) {
+      console.error("Error signing typed data", error);
+    }
+  }
 </script>
 
-// when the user clicks to create, sign the typed data
-<button onClick={() => signTypedData(typedDataDefinition)}>Create</button>
+<button on:click={handleCreate}>Create</button>
+
+
+
+<style>
+  button {
+    color: white;
+    background-color: #4CAF50;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+</style>

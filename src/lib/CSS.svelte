@@ -7,7 +7,8 @@
     import { cssCode, width, height } from '../store.js';
   
     function updateCode(event) {
-      cssCode.set(event.detail);
+      console.log(event.detail);
+      $cssCode = event.detail;
     }
   </script>
   

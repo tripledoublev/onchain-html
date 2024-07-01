@@ -29,8 +29,6 @@
 
 <button on:click={() => provider.open()}>{textbutton}</button>
 
-<button on:click={logStatus}>Log Status</button>
-
 <style>
 	button {
 		background-color: #4CAF50;
@@ -43,5 +41,6 @@
 		font-size: 16px;
 		margin: 4px 2px;
 		cursor: pointer;
+		margin: 0.5rem;
 	}
 </style>

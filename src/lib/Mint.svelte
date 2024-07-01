@@ -4,7 +4,7 @@
     import { get, writable } from 'svelte/store';
     import { useAccount, useChainId, usePublicClient } from "wagmi";
     import { generateSVG, jsonToBase64, svgToBase64, generateHTMLDocument } from './utils';
-    import { title, description, htmlCode, cssCode, jsCode, width, height,  client } from '../store.js';
+    import { title, description, htmlCode, cssCode, jsCode, width, height, account, client } from '../store.js';
     import {  zeChain, publicClient, config } from "./config";
   import { signTypedData, getPublicClient, getConnectorClient, getConnections  } from '@wagmi/core'
 import { createWalletClient, custom } from 'viem'
@@ -18,7 +18,7 @@ import { createWalletClient, custom } from 'viem'
       
     }
     );
-
+/* 
     async function getit() {
               
         // Retrieve Account from an EIP-1193 Provider.
@@ -31,7 +31,7 @@ import { createWalletClient, custom } from 'viem'
           transport: custom(window.ethereum)
         })
     }
-     
+      */
 
     async function logit() {
       console.log('connected account', $account);
