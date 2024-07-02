@@ -9,8 +9,8 @@ import { createWeb3Modal, defaultWagmiConfig  } from '@web3modal/wagmi'
 	import { watchAccount, getClient, getAccount, getConnectorClient, getPublicClient, getWalletClient } from '@wagmi/core';
 	import { account, client } from '../store.js';
 
-const chain = zoraSepolia;
-export const zeChain = zoraSepolia;
+const chain = zora;
+export const zeChain = zora;
 export const chainId = zeChain.id;
 
 
