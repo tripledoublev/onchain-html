@@ -44,77 +44,7 @@ let newHtml = `
                                          <div>
                                              <div>
                                                  <div>
-                                                          <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                        <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                         <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                        <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                          <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                          <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                          <div>
-                                     <div>
-                                         <div>
-                                             <div>
-                                                 <div>
-                                                     
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>  
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div> 
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>  
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
+                                                        
                                                  </div>
                                              </div>
                                          </div>
