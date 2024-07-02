@@ -39,5 +39,5 @@ npm run dev
 
 ### Changing chains
 
-In the config file, import the chain you want to use and adjust L12 to the desired chain. Its current default is `zoraSepolia`. 
+In the config file, import the chain you want to use and adjust L12 to the desired chain. It is currently set to `zora`.   
 
