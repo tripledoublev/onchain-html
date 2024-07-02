@@ -6,9 +6,6 @@
 
   import { htmlCode, width, height } from '../store.js';
 
-  $: console.log($width);
-  $: console.log($height);
-
   function updateCode(event) {
     console.log(event.detail);
     $htmlCode = event.detail;
