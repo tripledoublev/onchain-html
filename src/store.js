@@ -1,44 +1,17 @@
 import { writable, derived } from 'svelte/store';
 import Javascript from './lib/JAVASCRIPT.svelte';
 
-
+export let intro = writable(0);
 export let account = writable();
 export let client = writable();
 export let width = writable('400px');
 export let height = writable('400px');
 export let title = writable('');
 export let description = writable('');
-export let htmlCode = writable(`
 
-    <!-- Welcome to HTMLNFT! -->
+    function createHtmlCodeStore() {
+        const { subscribe, set, update } = writable(`
     
-    <!-- This is the default HTML code. -->
-    
-    <!-- You can edit this code to see 
-         the changes in the preview. -->
-    
-    <!-- You can also edit the CSS 
-         and JavaScript code. -->
-    
-    <!-- The title and description content below
-         will be used for the NFT metadata. -->
-         
-    <!-- This interface is meant for you to 
-         channel that HTML energy -->
-         
-    <!-- All the text that you see on this
-         page is going onchain. -->
-         
-    <!-- Remove this part or scroll down
-         to edit title, description
-         and content -->
-    
-    <!-- Enjoy! -->
-    
-
-
-
-
     <title>HTMLNFT</title>
     <meta 
         name="description" 
@@ -46,9 +19,29 @@ export let htmlCode = writable(`
     />
     <main>
      <h1>Hello World</h1>
+       <div id="container"></div>
     </main>
-
-    `);
+        `);
+        
+     return {
+         subscribe,
+         set,
+         update,
+         setTitle: (newTitle) => {
+            update(html => {
+                const titleRegex = /<title>[^<]*<\/title>/;
+                return html.replace(titleRegex, `<title>${newTitle}</title>`);
+            }); 
+        },
+        setDescription: (newDescription) => {
+            update(html => {
+                const metaRegex = /(<meta\s+name=["']description["']\s+content=["'])[^"']*(["'])/;
+                return html.replace(metaRegex, `$1${newDescription}$2`);
+            });
+        }
+    };
+ }
+ export const htmlCode = createHtmlCodeStore();
 
     function createCssCodeStore() {
      const { subscribe, set, update } = writable(`
@@ -68,6 +61,11 @@ export let htmlCode = writable(`
          padding-left: 20px;
          margin:0;
      }
+    .nested-div {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 5px;
+            }
      `);
  
      return {
@@ -90,9 +88,25 @@ export let htmlCode = writable(`
  export const cssCode = createCssCodeStore();
 
 export let jsCode = writable(`
-   
-    console.log('!');
+               function getRandomColor() {
+                    const letters = '0123456789ABCDEF';
+                    let color = '#';
+                    for (let i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
 
+                setTimeout(function() {
+                    const mainElement = document.querySelector('main');
+                    if (mainElement) {
+                        const randomColor = getRandomColor();
+                        console.log('Changing background color to:', randomColor);
+                        mainElement.style.backgroundColor = randomColor;
+                    } else {
+                        console.error('Main element not found.');
+                    }
+                }, 2000);
     `);
 
 
@@ -104,3 +118,15 @@ width.subscribe($width => {
  height.subscribe($height => {
      cssCode.setWithDimensions(cssCode, $height);
  });
+
+ // Fetch and update the title
+htmlCode.subscribe($html => {
+    const titleMatch = $html.match(/<title>([^<]*)<\/title>/);
+    if (titleMatch) {
+        title.set(titleMatch[1]);
+    }
+    const descriptionMatch = $html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/);
+    if (descriptionMatch) {
+        description.set(descriptionMatch[1]);
+    }
+});

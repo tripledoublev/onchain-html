@@ -11,17 +11,19 @@
 </script>
 
 <div class="slidecontainer w-100">
-    <input type="range" min="50" max="567" bind:value={slider} class="slider w-100" id="myRange"> 
-    <p>Slider Value: {slider}px</p>
+  <h3> Want bigger or smaller windows? What you see is wha you get!</h3>
+    <p>The slider below will change the size of the window and the token.</p>
+ 
 
 </div>
-
+<input type="range" min="50" max="567" bind:value={slider} class="slider w-100" id="myRange"> 
+<p>{slider}px</p>
 
   <style>
     .slidecontainer {
         display: flex;
-        flex-direction: row;
-    }
+        flex-direction: column;
+      }
     .slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;

@@ -21,12 +21,17 @@
         <div xmlns="http://www.w3.org/1999/xhtml">
           <style>${$cssCode}</style>
           ${$htmlCode}
-          <script type="text/javascript">${$jsCode}<\/script>
+          <script type="text/javascript">
+            <![CDATA[
+             setTimeout(function() {
+            ${$jsCode}
+            }, 200);
+            ]]><\/script>
         </div>
       </foreignObject>
     </svg>
   `;
-  
+  console.log('SVG:', svg);
   const blob = new Blob([svg], {type: 'image/svg+xml'});
   const url = URL.createObjectURL(blob);
   

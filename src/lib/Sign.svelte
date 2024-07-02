@@ -70,19 +70,6 @@
 
 <button on:click={handleCreate}>Create</button>
 
+<h3>Signature will be sent to Zora API and allows to create gasless premints by simply signing our html-based creativity's metadata</h3> 
 
 
-<style>
-  button {
-    color: white;
-    background-color: #4CAF50;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-</style>
