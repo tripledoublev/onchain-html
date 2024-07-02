@@ -21,8 +21,8 @@ export const chainId = zeChain.id;
 
 	// 2. Create wagmiConfig
 	const metadata = {
-	name: 'Web3Modal',
-	description: 'Web3Modal Example',
+	name: 'onchain html summer with Web3Modal',
+	description: 'Web3Modal onchain html summer',
 	url: 'https://vncnt.xyz', // origin must match your domain & subdomain.
 	icons: ['https://avatars.githubusercontent.com/u/37784886']
 	}
