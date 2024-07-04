@@ -12,6 +12,17 @@
   import Confirmation from './lib/Outro/Confirmation.svelte';
   import Error from './lib/Outro/Error.svelte';
   import Sign from './lib/Sign.svelte';
+  import Params from './lib/UI/Params.svelte';
+
+  import { onMount } from 'svelte';
+
+  // go straight to code editor if URL params are present
+  onMount(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('data')) {
+      intro.set(3);
+    }
+  });
 
   import { account, intro } from './store.js';
   
@@ -48,13 +59,26 @@ $: console.log('Intro:', $intro);
     <h2>Preview</h2>
     <Preview />
   </section>
+  <div class='prefoot'>
   <section>
   {#if $account.status === 'connected'}
   <Sign />
   {:else if $account.status === 'disconnected'}
   <Wallet />
   {/if}
-</section> 
+</section>
+<section> 
+  <Params />
+</section>
+<section>
+  <Slider />
+
+  <h3>Don't like text-based aesthetics?</h3>
+  Try this template for inspiration:
+  <Template />
+
+</section>
+</div>
 {:else if $intro === 4}
 <section>  
   <Confirmation />
@@ -65,16 +89,6 @@ $: console.log('Intro:', $intro);
 </section>
 {/if}
 
-{#if $intro === 3}
-<section>
-  <Slider />
-
-  <h3>Don't like text-based aesthetics?</h3>
-  Try this template for inspiration:
-  <Template />
-
-</section>
-{/if}
 
 
 </main>
@@ -93,5 +107,11 @@ $: console.log('Intro:', $intro);
   }
   h2 {
     margin-bottom: 2px;
+  }
+  .prefoot {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    flex-basis: 100%;
   }
 </style>
