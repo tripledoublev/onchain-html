@@ -64,6 +64,7 @@ button {
 }
 button:hover {
   border: 1px solid black;
+  text-decoration: underline wavy;
 }
 button:focus,
 button:focus-visible {
