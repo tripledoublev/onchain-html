@@ -113,3 +113,19 @@ export function svgToBase64(svgString) {
       console.log('Parsed title:', titleText);
       console.log('Parsed description:', descriptionText);
     }
+
+    export function updateStoresFromParams(decodedParams, stores) {
+      stores.htmlStore.set(decodedParams.html || '');
+      stores.cssStore.set(decodedParams.css || '');
+      stores.jsStore.set(decodedParams.js || '');
+    }
+
+    export function decodeParams(encodedParams) {
+      const jsonString = atob(encodedParams);
+      return JSON.parse(jsonString);
+    }
+
+    export function encodeParams(params) {
+      const jsonString = JSON.stringify(params);
+      return btoa(jsonString);
+    }
