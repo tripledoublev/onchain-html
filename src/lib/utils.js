@@ -114,18 +114,34 @@ export function svgToBase64(svgString) {
       console.log('Parsed description:', descriptionText);
     }
 
-    export function updateStoresFromParams(decodedParams, stores) {
-      stores.htmlStore.set(decodedParams.html || '');
-      stores.cssStore.set(decodedParams.css || '');
-      stores.jsStore.set(decodedParams.js || '');
-    }
 
-    export function decodeParams(encodedParams) {
-      const jsonString = atob(encodedParams);
-      return JSON.parse(jsonString);
-    }
+// Function to encode parameters to a base64 string
+export function encodeParams(params) {
+  try {
+    const jsonString = JSON.stringify(params);
+    const base64String = btoa(jsonString);
+    return encodeURIComponent(base64String);
+  } catch (error) {
+    console.error("Error encoding parameters:", error);
+    return null;
+  }
+}
 
-    export function encodeParams(params) {
-      const jsonString = JSON.stringify(params);
-      return btoa(jsonString);
-    }
+// Function to decode base64 string to parameters
+export function decodeParams(encodedString) {
+  try {
+    const decodedString = decodeURIComponent(encodedString);
+    const jsonString = atob(decodedString);
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error("Error decoding parameters:", error);
+    return null;
+  }
+}
+
+// Function to update Svelte stores from decoded parameters
+export function updateStoresFromParams(params, stores) {
+  if (params.html) stores.htmlCode.set(params.html);
+  if (params.css) stores.cssCode.set(params.css);
+  if (params.js) stores.jsCode.set(params.js);
+}
