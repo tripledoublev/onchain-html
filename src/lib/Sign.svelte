@@ -6,7 +6,7 @@
   import { account } from "../store.js";
   import { generateSVG, svgToBase64, prepareTokenURI, prepareContractURI } from './utils';
   import { get } from 'svelte/store';
-  import { htmlCode, cssCode, jsCode, width, height, title, description } from '../store.js';
+  import { htmlCode, cssCode, jsCode, width, height, title, description, intro, responseData } from '../store.js';
 
   let creatorAddress;
   let creatorClient;
@@ -60,9 +60,15 @@
       const signature = await signTypedData(config,
       typedDataDefinition);
       if (signature) {
-        await submit({ signature });
-      }
+        const submitResponse = await submit({ signature });
+        console.log("Submit succeeded");
+          intro.set(4); // Success
+           // Store the success message
+          responseData.set('Premint did not send any erorr. Check your zora profile for the new NFT.');
+          }
     } catch (error) {
+      intro.set(5); // Error during submission
+      responseData.set("Premint was unsuccesful. Please try again.");
       console.error("Error signing typed data", error);
     }
   }
@@ -73,3 +79,10 @@
 <h3>Signature will be sent to Zora API and allows to create gasless premints by simply signing our html-based creativity's metadata</h3> 
 
 
+<style>
+  
+	button {
+		background-color: #4CAF50;
+	}
+
+</style>
