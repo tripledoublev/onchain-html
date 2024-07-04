@@ -11,7 +11,7 @@
 </script>
 
 <div class="slidecontainer">
-  <h3> Want bigger or smaller windows? What you see is wha you get!</h3>
+  <h3> Want bigger or smaller windows? What you see is <i>almost</i> what you'll get!</h3>
     <p>The slider below will change the size of the window and the token.</p>
     <div class="slidecontainerr w-20 max-w-lg">
       <input type="range" min="50" max="567" bind:value={slider} class="slider w-50" id="myRange"> 
