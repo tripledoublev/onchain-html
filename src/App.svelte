@@ -9,10 +9,12 @@
   import Intro from './lib/Intro/Intro.svelte';
   import Wallet from './lib/Wallet.svelte';
   import Template from './lib/UI/Template.svelte';
-
-import { account, intro } from './store.js';
+  import Confirmation from './lib/Outro/Confirmation.svelte';
+  import Error from './lib/Outro/Error.svelte';
   import Sign from './lib/Sign.svelte';
 
+  import { account, intro } from './store.js';
+  
 $: console.log('Intro:', $intro);
 </script>
 
@@ -46,16 +48,24 @@ $: console.log('Intro:', $intro);
     <h2>Preview</h2>
     <Preview />
   </section>
-  
-<section>
-
-
-{#if $account.status === 'connected'}
-<Sign />
-{:else if $account.status === 'disconnected'}
-<Wallet />
-{/if} 
+  <section>
+  {#if $account.status === 'connected'}
+  <Sign />
+  {:else if $account.status === 'disconnected'}
+  <Wallet />
+  {/if}
+</section> 
+{:else if $intro === 4}
+<section>  
+  <Confirmation />
 </section>
+{:else if $intro === 5}
+<section>
+  <Error />
+</section>
+{/if}
+
+{#if $intro === 3}
 <section>
   <Slider />
 
@@ -64,7 +74,8 @@ $: console.log('Intro:', $intro);
   <Template />
 
 </section>
-  {/if}
+{/if}
+
 
 </main>
 
