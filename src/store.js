@@ -1,6 +1,6 @@
-import { writable, derived } from 'svelte/store';
-import Javascript from './lib/JAVASCRIPT.svelte';
+import { writable } from 'svelte/store';
 
+export const responseData = writable(null);
 export let intro = writable(0);
 export let account = writable();
 export let client = writable();
@@ -57,15 +57,10 @@ export let description = writable('');
          color: white;
          font: 50px monospace;
          align-items: center;
+         justify-content: center;
          display: flex;
-         padding-left: 20px;
          margin:0;
      }
-    .nested-div {
-        border: 1px solid black;
-        padding: 10px;
-        margin: 5px;
-            }
      `);
  
      return {
@@ -98,11 +93,11 @@ export let jsCode = writable(`
                 }
 
                 setTimeout(function() {
-                    const mainElement = document.querySelector('main');
+                    const mainElement = document.querySelector('h1');
                     if (mainElement) {
                         const randomColor = getRandomColor();
-                        console.log('Changing background color to:', randomColor);
-                        mainElement.style.backgroundColor = randomColor;
+                        console.log('Changing text color to:', randomColor);
+                        mainElement.style.color = randomColor;
                     } else {
                         console.error('Main element not found.');
                     }
